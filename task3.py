@@ -33,7 +33,9 @@ def process_sound(path):
 
     plt.figure()
     plt.plot(x)
-    plt.title(f"Waveform: {path}")
+    plt.xlim(0, len(x))
+    plt.grid(alpha=0.3)
+    plt.title(f"Waveform: {name}")
     plt.xlabel("Sample number")
     plt.ylabel("Amplitude")
     plt.savefig(os.path.join(WAVEFORM_DIR, f"{name}_waveform.png"))
@@ -53,9 +55,12 @@ def cosine_1khz(name, n):
 
     two = t <= TWO_MS
     plt.figure()
-    plt.plot(t[two], y[two])
+    plt.plot(t[two] * 1000, y[two])
+    plt.xlim(0, TWO_MS * 1000)
+    plt.xticks(np.arange(0, 2.25, 0.25))
+    plt.grid(alpha=0.3)
     plt.title("1 kHz cosine (two cycles)")
-    plt.xlabel("Time (s)")
+    plt.xlabel("Time (ms)")
     plt.ylabel("Amplitude")
     plt.savefig(os.path.join(COSINE_DIR, f"{name}_cosine_1khz.png"))
 
