@@ -13,7 +13,11 @@ def process_sound(path):
     print(f"{path}: sampling rate = {fs} Hz")
 
     if x.ndim == 2:
-        x = x.sum(axis=1)
+        x = x.mean(axis=1)
+
+    if fs < TARGET_FS:
+        print(f"{path}: {fs} Hz is below 16 kHz, pick a different file")
+        return None
 
     sd.play(x, fs)
     sd.wait()
@@ -26,10 +30,6 @@ def process_sound(path):
     plt.xlabel("Sample number")
     plt.ylabel("Amplitude")
 
-    if fs < TARGET_FS:
-        print("Retry sample with higher sampling rate")
-        return
-    
     if fs != TARGET_FS:
         x = resample_poly(x, TARGET_FS, fs)
 
@@ -43,7 +43,7 @@ def cosine_1khz(n):
     sd.play(y, TARGET_FS)
     sd.wait()
 
-    two = t < TWO_MS
+    two = t <= TWO_MS
     plt.figure()
     plt.plot(t[two], y[two])
     plt.title("1 kHz cosine (two cycles)")
