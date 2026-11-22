@@ -73,6 +73,9 @@ def split_channels(path, n):
         x = resample_poly(x, TARGET_FS, fs)
     return filter_bank(x, TARGET_FS, log_bands(n))
 
+def rectify_channels(channels):
+    return [np.abs(y) for y in channels]
 
 channels = split_channels("audio/selected/child_quiet_1.wav", 8)
+rectified = rectify_channels(channels)
 print(len(channels), "channels of", len(channels[0]), "samples")
