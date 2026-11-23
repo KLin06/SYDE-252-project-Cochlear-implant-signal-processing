@@ -32,7 +32,6 @@ def split_channels(path, n):
         x = resample_poly(x, TARGET_FS, fs)
     return filter_bank(x, TARGET_FS, log_bands(n))
 
-
 def plot_channel(y, title):
     t = np.arange(len(y)) / TARGET_FS
     plt.figure()
@@ -42,6 +41,7 @@ def plot_channel(y, title):
     plt.ylabel("Amplitude")
     plt.grid(alpha=0.3)
 
+# Rectify the channel using the abs function
 def rectify_channels(channels):
     return [np.abs(y) for y in channels]
 
